@@ -76,6 +76,10 @@ const config = {
         dvh: '100dvh',
       },
     },
+    fontFamily: {
+      sans: ['Montserrat', 'sans-serif'],
+      display: ['Playfair Display', 'serif'],
+    },
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
