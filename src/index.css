@@ -75,4 +75,12 @@
   body {
     @apply bg-background text-foreground h-dvh;
   }
+
+  .icon {
+    @apply size-4;
+  }
+
+  .icon-muted {
+    @apply size-4 text-muted-foreground;
+  }
 }
