@@ -83,4 +83,8 @@
   .icon-muted {
     @apply size-4 text-muted-foreground;
   }
+
+  .actions {
+    @apply flex flex-col md:flex-row md:items-center [&>*]:w-full [&>*]:md:w-max gap-2;
+  }
 }
