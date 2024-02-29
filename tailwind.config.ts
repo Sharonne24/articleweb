@@ -77,8 +77,8 @@ const config = {
       },
     },
     fontFamily: {
-      sans: ['Montserrat', 'sans-serif'],
-      display: ['Playfair Display', 'serif'],
+      sans: ['Roboto', 'sans-serif'],
+      display: ['Montserrat', 'serif'],
     },
   },
   plugins: [require('tailwindcss-animate')],
