@@ -29,9 +29,9 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
-            <Link to="/blog/new" className="flex items-center gap-3">
+            <Link to="/blogs/list" className="flex items-center gap-3">
               <Rss className="icon" />
-              <span className="text-sm font-medium">Create Blog</span>
+              <span className="text-sm font-medium">Blogs</span>
             </Link>
           </li>
           <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
