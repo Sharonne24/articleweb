@@ -12,14 +12,17 @@ import ProtectedRoute from './components/layout/protected-route';
 import CategoriesPage from './pages/categories';
 import BlogsListPage from './pages/blogs-list';
 import BlogForm from './pages/blog-form';
+import PublicLayout from './components/layout/public-layout';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog/:id" element={<BlogDetails />} />
-        <Route path="/login" element={<Login />} />
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/blog/:id" element={<BlogDetails />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
 
         <Route
           element={
