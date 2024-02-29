@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,6 +22,9 @@ import { titleCase } from '@/lib/utils';
 import { toast } from 'sonner';
 import ImageUploader from '@/components/ui/image-uploader';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { createBlog } from '@/services/blogApi';
+import { useNavigate } from 'react-router-dom';
 
 const formSchema = z.object({
   title: z.string().min(20, 'Title is too short.'),
@@ -30,7 +33,7 @@ const formSchema = z.object({
   category: z.string().min(1, 'Category is required.'),
 });
 
-type FormType = z.infer<typeof formSchema>;
+export type FormType = z.infer<typeof formSchema>;
 
 export default function BlogForm() {
   const {
@@ -41,6 +44,9 @@ export default function BlogForm() {
     queryKey: ['categories'],
     queryFn: getCategories,
   });
+
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const formattedCategories = categories?.map(category => ({
     value: category.id.toString(),
@@ -63,8 +69,30 @@ export default function BlogForm() {
     resolver: zodResolver(formSchema),
   });
 
+  const {
+    formState: { isValid },
+  } = form;
+
+  const { isPending: isCreating, mutate: create } = useMutation({
+    mutationFn: (details: FormType) => createBlog(details),
+    onError: error => {
+      console.log(error);
+      toast.error(`😞 Something went wrong while creating this blog article.`);
+    },
+    onSuccess: () => {
+      toast.success(`😀 Blog created successfully!.`);
+      form.reset();
+      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      navigate('/blogs/list');
+    },
+  });
+
   function onSubmit(values: FormType) {
-    console.log(values);
+    create(values);
+  }
+
+  function handleImageChange(value: string) {
+    form.setValue('imageUrl', value);
   }
 
   return (
@@ -82,7 +110,11 @@ export default function BlogForm() {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter title for your post" {...field} />
+                    <Input
+                      placeholder="Enter title for your post"
+                      {...field}
+                      disabled={isCreating}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -101,26 +133,21 @@ export default function BlogForm() {
                       defaultValue={field.value}
                       onChange={field.onChange}
                       className="w-full"
-                      disabled={isLoading}
+                      disabled={isLoading || isCreating}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Blog poster</FormLabel>
-                  <FormControl>
-                    <ImageUploader />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="space-y-2">
+              <Label>Blog poster</Label>
+              <ImageUploader
+                onImageChange={handleImageChange}
+                disabled={isCreating}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="content"
@@ -140,8 +167,15 @@ export default function BlogForm() {
               )}
             />
             <div className="actions">
-              <Button size="sm">Submit</Button>
-              <Button type="button" size="sm" variant="outline">
+              <Button size="sm" disabled={isCreating || !isValid}>
+                Submit
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                disabled={isCreating}
+              >
                 Cancel
               </Button>
             </div>
