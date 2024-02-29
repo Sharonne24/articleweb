@@ -1,9 +1,14 @@
-import { AlignJustify, Home, Lock, Rss } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { AlignJustify, Home, Lock, LogOut, Rss, Users } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { Button } from '../ui/button';
+
+import { logOut } from '@/services/auth';
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   return (
-    <div className="px-4 space-y-4">
+    <div className="px-4 h-full flex flex-col gap-4">
       <img
         src="/logo/logoipsum.svg"
         alt="logo"
@@ -30,6 +35,12 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
+            <Link to="/authors" className="flex items-center gap-3">
+              <Users className="icon" />
+              <span className="text-sm font-medium">Authors</span>
+            </Link>
+          </li>
+          <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
             <Link to="/password" className="flex items-center gap-3">
               <Lock className="icon" />
               <span className="text-sm font-medium">Change password</span>
@@ -37,6 +48,19 @@ export default function Sidebar() {
           </li>
         </ul>
       </nav>
+      <div className="mt-auto">
+        <Button
+          variant="ghost"
+          className="w-full justify-start"
+          onClick={() => {
+            logOut();
+            navigate('/', { replace: true });
+          }}
+        >
+          <LogOut className="icon" />
+          <span>Logout</span>
+        </Button>
+      </div>
     </div>
   );
 }
