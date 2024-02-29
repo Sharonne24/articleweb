@@ -11,7 +11,7 @@ export type Database = {
     Tables: {
       blogs: {
         Row: {
-          author_id: string | null;
+          author_id: string;
           category_id: number;
           content: string;
           created_at: string;
@@ -23,7 +23,7 @@ export type Database = {
           title: string;
         };
         Insert: {
-          author_id?: string | null;
+          author_id: string;
           category_id: number;
           content: string;
           created_at?: string;
@@ -35,7 +35,7 @@ export type Database = {
           title?: string;
         };
         Update: {
-          author_id?: string | null;
+          author_id?: string;
           category_id?: number;
           content?: string;
           created_at?: string;
@@ -47,6 +47,13 @@ export type Database = {
           title?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: 'public_blogs_author_id_fkey';
+            columns: ['author_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
           {
             foreignKeyName: 'public_blogs_category_id_fkey';
             columns: ['category_id'];
@@ -71,6 +78,44 @@ export type Database = {
         };
         Relationships: [];
       };
+      users: {
+        Row: {
+          contact: string | null;
+          created: string;
+          email: string;
+          full_name: string;
+          id: string;
+          image_url: string | null;
+          role: Database['public']['Enums']['roles'] | null;
+        };
+        Insert: {
+          contact?: string | null;
+          created?: string;
+          email: string;
+          full_name: string;
+          id: string;
+          image_url?: string | null;
+          role?: Database['public']['Enums']['roles'] | null;
+        };
+        Update: {
+          contact?: string | null;
+          created?: string;
+          email?: string;
+          full_name?: string;
+          id?: string;
+          image_url?: string | null;
+          role?: Database['public']['Enums']['roles'] | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'users_id_fkey';
+            columns: ['id'];
+            isOneToOne: true;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -79,7 +124,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      [_ in never]: never;
+      roles: 'admin' | 'editor' | 'author' | 'standard';
     };
     CompositeTypes: {
       [_ in never]: never;
