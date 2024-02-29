@@ -41,3 +41,16 @@ export async function getBlogs() {
 
   return data;
 }
+
+export async function getAllBlogs() {
+  const { data, error } = await supabase
+    .from('blogs')
+    .select(
+      'id,title,created_at,description,image_url,categories(category),users(full_name,image_url)'
+    )
+    .order('created_at', { ascending: false });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
