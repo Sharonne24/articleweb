@@ -8,7 +8,7 @@ export default function PublicLayout() {
   return (
     <div className="h-dvh flex flex-col">
       <PublicHeader />
-      <div className="flex-1 flex">
+      <div className="flex-1 md:flex">
         <BlogsSidebar />
         <div className="px-6 md:px-8 lg:px-12 py-4 md:py-6">
           <Outlet />
