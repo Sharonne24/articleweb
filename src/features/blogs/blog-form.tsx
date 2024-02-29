@@ -103,6 +103,19 @@ export default function BlogForm() {
       <CardContent>
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="actions">
+              <Button size="sm" disabled={isCreating || !isValid}>
+                Submit
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                disabled={isCreating}
+              >
+                Cancel
+              </Button>
+            </div>
             <FormField
               control={form.control}
               name="title"
@@ -166,19 +179,6 @@ export default function BlogForm() {
                 </FormItem>
               )}
             />
-            <div className="actions">
-              <Button size="sm" disabled={isCreating || !isValid}>
-                Submit
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                disabled={isCreating}
-              >
-                Cancel
-              </Button>
-            </div>
           </form>
         </Form>
       </CardContent>
