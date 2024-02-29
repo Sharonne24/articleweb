@@ -88,3 +88,8 @@
     @apply flex flex-col md:flex-row md:items-center [&>*]:w-full [&>*]:md:w-max gap-2;
   }
 }
+
+.quill {
+  display: flex;
+  flex-direction: column;
+}
