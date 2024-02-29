@@ -13,3 +13,16 @@ export async function createCategory(categoryName: string) {
 
   return data;
 }
+
+export async function getCategories() {
+  const { data: categories, error } = await supabase
+    .from('categories')
+    .select('*');
+
+  if (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+
+  return categories;
+}
