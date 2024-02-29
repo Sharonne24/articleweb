@@ -17,7 +17,7 @@ export async function createUser(details: UserDetails) {
       data: {
         role: details.role,
         imageUrl: null,
-        fullName: details.name.toLowerCase(),
+        fullName: details.name.trim().toLowerCase(),
       },
     },
   });
@@ -25,6 +25,20 @@ export async function createUser(details: UserDetails) {
   if (error) {
     throw new Error(error.message);
   }
+
+  if (!data.user) return;
+
+  const { error: userError } = await supabase.from('users').insert([
+    {
+      id: data.user.id,
+      full_name: details.name.trim().toLowerCase(),
+      email: details.email,
+      image_url: null,
+      role: details.role,
+    },
+  ]);
+
+  if (userError) throw new Error(userError.message);
 
   return data;
 }
