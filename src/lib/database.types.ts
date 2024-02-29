@@ -15,6 +15,7 @@ export type Database = {
           category_id: number;
           content: string;
           created_at: string;
+          deleted: boolean | null;
           id: string;
           image_url: string;
           published: boolean | null;
@@ -26,6 +27,7 @@ export type Database = {
           category_id: number;
           content: string;
           created_at?: string;
+          deleted?: boolean | null;
           id?: string;
           image_url: string;
           published?: boolean | null;
@@ -37,6 +39,7 @@ export type Database = {
           category_id?: number;
           content?: string;
           created_at?: string;
+          deleted?: boolean | null;
           id?: string;
           image_url?: string;
           published?: boolean | null;
