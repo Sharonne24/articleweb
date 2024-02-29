@@ -30,6 +30,7 @@ export default function Categories() {
               <div
                 className="text-sm font-medium px-2 py-1 transition-colors hover:bg-secondary cursor-pointer"
                 onClick={() => handleClick(category.category)}
+                key={category.id}
               >
                 {titleCase(category.category)}
               </div>
