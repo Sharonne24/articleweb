@@ -6,10 +6,10 @@ import BlogCards from '@/features/blogs/blog-cards';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { titleCase } from '@/lib/utils';
-import { useBlogs } from '@/features/blogs/use-blogs';
+import { useCategories } from '@/features/blogs/use-categories';
 
 function Home() {
-  const { categories, isLoading } = useBlogs();
+  const { categories, isLoading } = useCategories();
 
   const formattedData = categories?.map(category => ({
     value: category.category.toLowerCase(),
