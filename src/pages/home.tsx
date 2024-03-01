@@ -19,6 +19,7 @@ function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
   function handleChange(category: string) {
     searchParams.set('category', category);
+    searchParams.delete('page');
     setSearchParams(searchParams);
   }
 

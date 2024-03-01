@@ -1,11 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 
 import { Skeleton } from '../ui/skeleton';
 
 import { dummyArray, titleCase } from '@/lib/utils';
 import { getCategories } from '@/services/categories-api';
-import clsx from 'clsx';
 
 export default function Categories() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +17,7 @@ export default function Categories() {
 
   function handleClick(category: string) {
     searchParams.set('category', category);
+    searchParams.delete('page');
     setSearchParams(searchParams);
   }
 
