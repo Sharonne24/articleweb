@@ -21,3 +21,9 @@ export async function createBlog(details: FormType) {
 
   return data;
 }
+
+export async function getBlogs() {
+  const { data, error } = await supabase
+    .from('blogs')
+    .select('title,created_at,categories(category)');
+}
