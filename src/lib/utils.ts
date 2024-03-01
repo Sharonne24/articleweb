@@ -36,3 +36,5 @@ export function getInitials(fullName: string | null): string {
 export function truncateString(value: string) {
   return value.substring(0, 49) + '...';
 }
+
+export const PAGE_SIZE = 10;
