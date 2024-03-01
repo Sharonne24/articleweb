@@ -5,9 +5,11 @@ import { Skeleton } from '../ui/skeleton';
 
 import { dummyArray, titleCase } from '@/lib/utils';
 import { getCategories } from '@/services/categories-api';
+import clsx from 'clsx';
 
 export default function Categories() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const selectedCategory = searchParams.get('category') || 'all';
   const { data: categories, isLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
@@ -28,7 +30,10 @@ export default function Categories() {
           {categories &&
             [{ id: 0, category: 'all' }, ...categories].map(category => (
               <div
-                className="text-sm font-medium px-2 py-1 transition-colors hover:bg-secondary cursor-pointer"
+                className={clsx(
+                  'text-sm font-medium px-2 py-1 transition-colors hover:bg-secondary cursor-pointer',
+                  { 'text-primary': selectedCategory === category.category }
+                )}
                 onClick={() => handleClick(category.category)}
                 key={category.id}
               >
