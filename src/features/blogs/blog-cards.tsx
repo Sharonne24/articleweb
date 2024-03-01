@@ -1,14 +1,10 @@
 import BlogsLoadingSkeleton from './blogs-loading-skeleton';
-import { useQuery } from '@tanstack/react-query';
-import { getAllBlogs } from '@/services/blogApi';
+
 import BlogCard from './blog-card';
+import { useBlogs } from './use-blogs';
 
 export default function BlogCards() {
-  const { isLoading, data: blogs } = useQuery({
-    queryKey: ['all-blogs'],
-    queryFn: getAllBlogs,
-  });
-
+  const { isLoading, blogs } = useBlogs();
   return (
     <>
       {isLoading ? (
