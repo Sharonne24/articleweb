@@ -81,6 +81,24 @@ export type Database = {
         };
         Relationships: [];
       };
+      newsletter_emails: {
+        Row: {
+          created_at: string;
+          email: string;
+          id: number;
+        };
+        Insert: {
+          created_at?: string;
+          email: string;
+          id?: number;
+        };
+        Update: {
+          created_at?: string;
+          email?: string;
+          id?: number;
+        };
+        Relationships: [];
+      };
       users: {
         Row: {
           contact: string | null;
