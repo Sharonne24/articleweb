@@ -2,11 +2,13 @@ import BlogsLoadingSkeleton from './blogs-loading-skeleton';
 
 import BlogCard from './blog-card';
 import { useBlogs } from './use-blogs';
+import NoPost from './no-post';
 
 export default function BlogCards() {
   const { isLoading, blogs } = useBlogs();
   return (
     <>
+      {!blogs || (!blogs.length && <NoPost />)}
       {isLoading ? (
         <BlogsLoadingSkeleton />
       ) : (
