@@ -87,6 +87,10 @@
   .actions {
     @apply flex flex-col md:flex-row md:items-center [&>*]:w-full [&>*]:md:w-max gap-2;
   }
+
+  .blog {
+    @apply [&>ul]:list-disc [&>ul]:px-6 [&>ul]:my-3;
+  }
 }
 
 .quill {
