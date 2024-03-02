@@ -65,7 +65,8 @@ export async function getAllBlogs({ category, search, page }: GetBlogsType) {
     .select(
       'id,title,created_at,description,image_url,categories(category),users(full_name,image_url)',
       { count: 'exact' }
-    );
+    )
+    .eq('published', true);
 
   if (category) {
     const categoryId = await getCategoryId(category);
@@ -87,4 +88,24 @@ export async function getAllBlogs({ category, search, page }: GetBlogsType) {
   if (error) throw new Error(error.message);
 
   return { data, count };
+}
+
+export async function getBlog(blogId: string | undefined) {
+  if (!blogId) {
+    throw new Error('Unable to fetch blog details.');
+  }
+  const { data, error } = await supabase
+    .from('blogs')
+    .select(
+      'title,description,image_url,content,category_id,published_date,published,published_date,categories(category),users(id,full_name,image_url)'
+    )
+    .eq('id', blogId)
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+
+  return data;
 }
