@@ -21,8 +21,8 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/blogs/:id" element={<BlogDetails />} />
-          <Route path="/login" element={<Login />} />
         </Route>
+        <Route path="/login" element={<Login />} />
 
         <Route
           element={
