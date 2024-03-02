@@ -14,6 +14,7 @@ export default function BlogCards() {
           {blogs?.map(blog => (
             <BlogCard
               key={blog.id}
+              id={blog.id}
               blogUrl={blog.image_url}
               category={blog.categories?.category as string}
               createdAt={new Date(blog.created_at)}
