@@ -91,6 +91,10 @@
   .blog {
     @apply [&>ul]:list-disc [&>ul]:px-6 [&>ul]:my-3;
   }
+
+  .dropdown-link {
+    @apply relative w-full border-none flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-secondary;
+  }
 }
 
 .quill {
