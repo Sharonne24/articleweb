@@ -1,6 +1,13 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import parse from 'html-react-parser';
+
 import { capitalizeFirstLetter, formatDateLong } from '@/lib/utils';
 import BlogNotFound from './blog-not-found';
-import parse from 'html-react-parser';
+import { useUser } from '../auth/use-user';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+
+import { supabase } from '@/lib/supabase';
 
 interface BlogDetailProps {
   blog: {
@@ -21,16 +28,47 @@ interface BlogDetailProps {
 }
 
 export default function BlogDetail({ blog }: BlogDetailProps) {
-  const { publishedDate, title, description, blogPoster, content } = blog;
+  const { publishedDate, title, description, blogPoster, content, id } = blog;
+  const queryClient = useQueryClient();
 
-  if (!publishedDate) return <BlogNotFound />;
+  const { isAuthenticated } = useUser();
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: async () => {
+      console.log('first');
+      const { error } = await supabase
+        .from('blogs')
+        .update({ published: true })
+        .eq('id', id!);
+
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      toast.error(`🙂 Published successfully.`);
+    },
+    onError: err => {
+      console.log(err);
+      toast.error(`😞 Unable to perform this action.`);
+    },
+  });
+
+  if (!publishedDate && !isAuthenticated) return <BlogNotFound />;
 
   return (
     <>
+      <Button
+        variant="default"
+        disabled={isPending}
+        onClick={() => mutate(id!)}
+      >
+        Publish this article
+      </Button>
       <header>
         <div className="flex flex-col gap-2 items-center pt-4">
           <div className="text-xs text-primary">
-            Published on {formatDateLong(new Date(publishedDate))}
+            {publishedDate &&
+              `Published on ${formatDateLong(new Date(publishedDate))}`}
           </div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-display">
             {capitalizeFirstLetter(title)}
