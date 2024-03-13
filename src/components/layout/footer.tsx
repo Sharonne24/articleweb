@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import Container from './container';
 import Logo from './logo';
 import Newsletter from './newsletter';
-import { Icons } from '../ui/icons';
+// import { Icons } from '../ui/icons';
 
 export default function Footer() {
   return (
@@ -20,7 +20,7 @@ export default function Footer() {
             <p className="text-xs text-muted-foreground">
               &copy; {new Date().getFullYear()} All rights reserved
             </p>
-            <ul className="flex items-center gap-4">
+            {/* <ul className="flex items-center gap-4">
               <li>
                 <Link to="https:twitter.com" target="_blank">
                   <Icons.Twitter className="size-6" />
@@ -41,7 +41,7 @@ export default function Footer() {
                   <Icons.Instagram className="size-6" />
                 </Link>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </Container>
       </div>
