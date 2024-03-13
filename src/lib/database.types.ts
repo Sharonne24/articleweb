@@ -9,6 +9,32 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      blog_views: {
+        Row: {
+          blog_id: string | null;
+          created_at: string;
+          id: number;
+        };
+        Insert: {
+          blog_id?: string | null;
+          created_at?: string;
+          id?: number;
+        };
+        Update: {
+          blog_id?: string | null;
+          created_at?: string;
+          id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'public_blog_views_blog_id_fkey';
+            columns: ['blog_id'];
+            isOneToOne: false;
+            referencedRelation: 'blogs';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       blogs: {
         Row: {
           author_id: string;
