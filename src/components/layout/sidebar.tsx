@@ -1,4 +1,4 @@
-import { AlignJustify, Home, Lock, LogOut, Rss, Users } from 'lucide-react';
+import { AlignJustify, Home, LogOut, Rss } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '../ui/button';
@@ -9,11 +9,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
   return (
     <div className="px-4 h-full flex flex-col gap-4">
-      <img
-        src="/logo/logoipsum.svg"
-        alt="logo"
-        className="h-8 w-auto mx-auto"
-      />
+      <img src="/logo/kcj.png" alt="logo" className="h-32 w-auto mx-auto" />
       <nav>
         <ul className="space-y-2">
           <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
@@ -34,18 +30,18 @@ export default function Sidebar() {
               <span className="text-sm font-medium">Blogs</span>
             </Link>
           </li>
-          <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
+          {/* <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
             <Link to="/authors" className="flex items-center gap-3">
               <Users className="icon" />
               <span className="text-sm font-medium">Authors</span>
             </Link>
-          </li>
-          <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
+          </li> */}
+          {/* <li className="block transition-all hover:bg-secondary hover:text-sky-900 hover:font-bold hover:dark:text-100 rounded-sm px-4 py-2">
             <Link to="/password" className="flex items-center gap-3">
               <Lock className="icon" />
               <span className="text-sm font-medium">Change password</span>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
       <div className="mt-auto">
