@@ -9,7 +9,6 @@ interface BlogCardProps {
   blogUrl: string;
   title: string;
   category: string;
-  description: string;
   createdAt: Date;
   authorName: string;
   authorImageUrl: string | null;
@@ -20,7 +19,6 @@ export default function BlogCard({
   blogUrl,
   title,
   category,
-  description,
   createdAt,
   authorName,
   authorImageUrl,
@@ -40,9 +38,6 @@ export default function BlogCard({
           <h3 className="text-sm md:text-base font-semibold font-display capitalize">
             {title}
           </h3>
-          <p className="text-sm text-muted-foreground line-clamp-3">
-            {description}
-          </p>
           <div className="flex items-center gap-4">
             <CustomAvatar
               imageUrl={authorImageUrl ?? undefined}
