@@ -20,7 +20,6 @@ export default function BlogCards() {
               blogUrl={blog.image_url}
               category={blog.categories?.category as string}
               createdAt={new Date(blog.created_at)}
-              description={blog.description!}
               title={blog.title}
               authorName={blog.users?.full_name as string}
               authorImageUrl={blog.users?.image_url ?? null}
