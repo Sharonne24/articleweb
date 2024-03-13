@@ -14,8 +14,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import BlogsTableSkeleton from './blogs-table-skeleton';
 
-import { getBlogs } from '@/services/blogApi';
-import { formatDateLong, truncateString } from '@/lib/utils';
+import { getBlogs, publishArticle } from '@/services/blogApi';
+import {
+  capitalizeFirstLetter,
+  formatDateLong,
+  truncateString,
+} from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
+import CustomDialog from '@/components/ui/custom-dialog';
 
 interface Blogs {
   id: string;
@@ -30,11 +37,22 @@ export default function BlogsTable() {
     {
       accessorKey: 'title',
       header: 'Title',
-      cell: ({ row }) => <div>{truncateString(row.getValue('title'))}</div>,
+      cell: ({ row }) => (
+        <div>
+          {truncateString(capitalizeFirstLetter(row.getValue('title')))}
+        </div>
+      ),
     },
     {
       accessorKey: 'category',
       header: 'Category',
+      cell: ({ row }) => (
+        <div>
+          <Badge variant="tag" className="capitalize">
+            {row.getValue('category')}
+          </Badge>
+        </div>
+      ),
     },
 
     {
@@ -45,7 +63,17 @@ export default function BlogsTable() {
     {
       id: 'actions',
       cell: ({ row }) => {
-        console.log(row.getValue('author'));
+        const blog = row.original;
+
+        function handlePublish() {
+          publishArticle(blog.id)
+            .then(() => toast.success('Article published successfully!.'))
+            .catch(err => {
+              console.log(err);
+              toast.error('There was an error performing this action.');
+            });
+        }
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -54,8 +82,16 @@ export default function BlogsTable() {
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="[&>*]:cursor-pointer [&>*]:text-xs">
-              <DropdownMenuItem>View</DropdownMenuItem>
-              <DropdownMenuItem>Publish</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to={`/blogs/${blog.id}`}>View</Link>
+              </DropdownMenuItem>
+              {!blog.published && (
+                <button className="dropdown-link">
+                  <CustomDialog onAction={handlePublish} actionText="Publish">
+                    <span>Publish</span>
+                  </CustomDialog>
+                </button>
+              )}
               <DropdownMenuItem className="text-destructive">
                 Delete
               </DropdownMenuItem>
