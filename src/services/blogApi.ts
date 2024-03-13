@@ -63,10 +63,10 @@ export async function getAllBlogs({ category, search, page }: GetBlogsType) {
   let query = supabase
     .from('blogs')
     .select(
-      'id,title,created_at,description,image_url,categories(category),users(full_name,image_url)',
+      'id,title,created_at,image_url,categories(category),users(full_name,image_url)',
       { count: 'exact' }
-    )
-    .eq('published', true);
+    );
+  // .eq('published', true);
 
   if (category) {
     const categoryId = await getCategoryId(category);
@@ -108,4 +108,39 @@ export async function getBlog(blogId: string | undefined) {
   }
 
   return data;
+}
+
+export async function totalBlogs() {
+  const { count } = await supabase
+    .from('blogs')
+    .select('*', { count: 'exact' });
+
+  return count;
+}
+
+export async function totalViews() {
+  const { count } = await supabase
+    .from('blog_views')
+    .select('*', { count: 'exact' });
+
+  return count;
+}
+
+export async function unPublishedBlogs() {
+  const { count } = await supabase
+    .from('blogs')
+    .select('*', { count: 'exact' })
+    .eq('published', false);
+
+  return count;
+}
+
+export async function publishArticle(id: string) {
+  console.log(id);
+  const { error } = await supabase
+    .from('blogs')
+    .update({ published: true })
+    .eq('id', id);
+
+  if (error) throw new Error(error.message);
 }
