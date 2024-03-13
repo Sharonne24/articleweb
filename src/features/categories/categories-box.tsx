@@ -28,22 +28,17 @@ import {
 
 import { getCategories } from '@/services/categories-api';
 import { titleCase } from '@/lib/utils';
+import { useCategories } from '../blogs/use-categories';
 
 export default function CategoriesBox() {
-  const {
-    isLoading,
-    data: categories,
-    error,
-  } = useQuery({
-    queryKey: ['categories'],
-    queryFn: getCategories,
-  });
+  const { isLoading, categories } = useCategories();
+  console.log(categories);
 
-  if (error) {
-    toast.error('Error while retrieving created categories.', {
-      duration: 5000,
-    });
-  }
+  // if (error) {
+  //   toast.error('Error while retrieving created categories.', {
+  //     duration: 5000,
+  //   });
+  // }
 
   return (
     <div className="space-y-4">
