@@ -136,7 +136,6 @@ export async function unPublishedBlogs() {
 }
 
 export async function publishArticle(id: string) {
-  console.log(id);
   const { error } = await supabase
     .from('blogs')
     .update({ published: true })
