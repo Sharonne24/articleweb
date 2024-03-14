@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import BlogsTableSkeleton from './blogs-table-skeleton';
 
-import { getBlogs, publishArticle } from '@/services/blogApi';
+import { getBlogs } from '@/services/blogApi';
 import {
   capitalizeFirstLetter,
   formatDateLong,
@@ -22,7 +22,7 @@ import {
 } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
-import CustomDialog from '@/components/ui/custom-dialog';
+// import CustomDialog from '@/components/ui/custom-dialog';
 
 interface Blogs {
   id: string;
@@ -65,14 +65,14 @@ export default function BlogsTable() {
       cell: ({ row }) => {
         const blog = row.original;
 
-        function handlePublish() {
-          publishArticle(blog.id)
-            .then(() => toast.success('Article published successfully!.'))
-            .catch(err => {
-              console.log(err);
-              toast.error('There was an error performing this action.');
-            });
-        }
+        // function handlePublish() {
+        //   publishArticle(blog.id)
+        //     .then(() => toast.success('Article published successfully!.'))
+        //     .catch(err => {
+        //       console.log(err);
+        //       toast.error('There was an error performing this action.');
+        //     });
+        // }
 
         return (
           <DropdownMenu>
@@ -85,13 +85,13 @@ export default function BlogsTable() {
               <DropdownMenuItem asChild>
                 <Link to={`/blogs/${blog.id}`}>View</Link>
               </DropdownMenuItem>
-              {!blog.published && (
+              {/* {!blog.published && (
                 <button className="dropdown-link">
                   <CustomDialog onAction={handlePublish} actionText="Publish">
                     <span>Publish</span>
                   </CustomDialog>
                 </button>
-              )}
+              )} */}
               <DropdownMenuItem className="text-destructive">
                 Delete
               </DropdownMenuItem>
