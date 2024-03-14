@@ -58,10 +58,10 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
       </Button>
       <header>
         <div className="flex flex-col gap-2 items-center pt-4">
-          <div className="text-xs text-primary">
+          {/* <div className="text-xs text-primary">
             {publishedDate &&
               `Published on ${formatDateLong(new Date(publishedDate))}`}
-          </div>
+          </div> */}
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-display">
             {capitalizeFirstLetter(title)}
           </h1>
