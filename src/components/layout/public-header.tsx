@@ -4,10 +4,14 @@ import Container from './container';
 
 export default function PublicHeader() {
   return (
-    <header className="bg-secondary py-4 md:py-6">
+    <header className="bg-secondary ">
       <Container>
         <Link to="/">
-          <img src="/logo/logoipsum.svg" alt="Logo" className="h-6 w-auto" />
+          <img
+            src="/logo/kcj-horizontal.png"
+            alt="Logo"
+            className="h-24 w-auto"
+          />
         </Link>
       </Container>
     </header>
