@@ -143,3 +143,27 @@ export async function publishArticle(id: string) {
 
   if (error) throw new Error(error.message);
 }
+
+export async function deleteBlog(blogId: string) {
+  // console.log(blogId);
+  const { error } = await supabase.from('blogs').delete().eq('id', blogId);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function createBlogView(blogId: string) {
+  const { data, error } = await supabase
+    .from('blog_views')
+    .insert([
+      {
+        blog_id: blogId,
+      },
+    ])
+    .select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}

@@ -26,3 +26,12 @@ export async function getCategories() {
 
   return categories;
 }
+
+export async function deleteCategory(categoryId: number) {
+  const { error } = await supabase
+    .from('categories')
+    .delete()
+    .eq('id', categoryId);
+
+  if (error) throw new Error(error.message);
+}
