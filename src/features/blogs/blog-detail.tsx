@@ -1,13 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import parse from 'html-react-parser';
 
-import { capitalizeFirstLetter, formatDateLong } from '@/lib/utils';
+import parse from 'html-react-parser';
+import { capitalizeFirstLetter } from '@/lib/utils';
 import BlogNotFound from './blog-not-found';
 import { useUser } from '../auth/use-user';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 
-import { publishArticle } from '@/services/blogApi';
+
 
 interface BlogDetailProps {
   blog: {
@@ -28,34 +25,18 @@ interface BlogDetailProps {
 }
 
 export default function BlogDetail({ blog }: BlogDetailProps) {
-  const { publishedDate, title, description, blogPoster, content, id } = blog;
-  const queryClient = useQueryClient();
+  const { publishedDate, title, description, blogPoster, content } = blog;
+ 
 
   const { isAuthenticated } = useUser();
 
-  const { isPending, mutate } = useMutation({
-    mutationFn: publishArticle,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blogs'] });
-      toast.error(`🙂 Published successfully.`);
-    },
-    onError: err => {
-      console.log(err);
-      toast.error(`😞 Unable to perform this action.`);
-    },
-  });
+
 
   if (!publishedDate && !isAuthenticated) return <BlogNotFound />;
 
   return (
     <>
-      <Button
-        variant="default"
-        disabled={isPending}
-        onClick={() => mutate(id!)}
-      >
-        Publish this article
-      </Button>
+      
       <header>
         <div className="flex flex-col gap-2 items-center pt-4">
           {/* <div className="text-xs text-primary">
