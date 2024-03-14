@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreVertical } from 'lucide-react';
 
@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import BlogsTableSkeleton from './blogs-table-skeleton';
 
-import { getBlogs } from '@/services/blogApi';
+import { deleteBlog, getBlogs } from '@/services/blogApi';
 import {
   capitalizeFirstLetter,
   formatDateLong,
@@ -22,6 +22,7 @@ import {
 } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
+import CustomDialog from '@/components/ui/custom-dialog';
 // import CustomDialog from '@/components/ui/custom-dialog';
 
 interface Blogs {
@@ -33,6 +34,7 @@ interface Blogs {
 }
 
 export default function BlogsTable() {
+  const queryClient = useQueryClient();
   const columns: ColumnDef<Blogs>[] = [
     {
       accessorKey: 'title',
@@ -65,14 +67,17 @@ export default function BlogsTable() {
       cell: ({ row }) => {
         const blog = row.original;
 
-        // function handlePublish() {
-        //   publishArticle(blog.id)
-        //     .then(() => toast.success('Article published successfully!.'))
-        //     .catch(err => {
-        //       console.log(err);
-        //       toast.error('There was an error performing this action.');
-        //     });
-        // }
+        function handleDelete(id: string) {
+          deleteBlog(id)
+            .then(() => {
+              toast.success('Article deleted successfully!.');
+              queryClient.invalidateQueries({ queryKey: ['blogs'] });
+            })
+            .catch(err => {
+              console.log(err);
+              toast.error('There was an error performing this action.');
+            });
+        }
 
         return (
           <DropdownMenu>
@@ -85,16 +90,14 @@ export default function BlogsTable() {
               <DropdownMenuItem asChild>
                 <Link to={`/blogs/${blog.id}`}>View</Link>
               </DropdownMenuItem>
-              {/* {!blog.published && (
-                <button className="dropdown-link">
-                  <CustomDialog onAction={handlePublish} actionText="Publish">
-                    <span>Publish</span>
-                  </CustomDialog>
-                </button>
-              )} */}
-              <DropdownMenuItem className="text-destructive">
-                Delete
-              </DropdownMenuItem>
+              <button className="dropdown-link cursor-pointer text-destructive">
+                <CustomDialog
+                  onAction={() => handleDelete(blog.id)}
+                  actionText="Delete"
+                >
+                  <span>Delete</span>
+                </CustomDialog>
+              </button>
             </DropdownMenuContent>
           </DropdownMenu>
         );
