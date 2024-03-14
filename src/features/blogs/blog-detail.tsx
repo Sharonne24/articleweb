@@ -7,7 +7,7 @@ import { useUser } from '../auth/use-user';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
-import { supabase } from '@/lib/supabase';
+import { publishArticle } from '@/services/blogApi';
 
 interface BlogDetailProps {
   blog: {
@@ -34,15 +34,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
   const { isAuthenticated } = useUser();
 
   const { isPending, mutate } = useMutation({
-    mutationFn: async () => {
-      console.log('first');
-      const { error } = await supabase
-        .from('blogs')
-        .update({ published: true })
-        .eq('id', id!);
-
-      if (error) throw new Error(error.message);
-    },
+    mutationFn: publishArticle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
       toast.error(`🙂 Published successfully.`);
