@@ -1,10 +1,10 @@
-
 import parse from 'html-react-parser';
 import { capitalizeFirstLetter } from '@/lib/utils';
 import BlogNotFound from './blog-not-found';
 import { useUser } from '../auth/use-user';
-
-
+import { useMutation } from '@tanstack/react-query';
+import { createBlogView } from '@/services/blogApi';
+import { useEffect } from 'react';
 
 interface BlogDetailProps {
   blog: {
@@ -25,18 +25,25 @@ interface BlogDetailProps {
 }
 
 export default function BlogDetail({ blog }: BlogDetailProps) {
-  const { publishedDate, title, description, blogPoster, content } = blog;
- 
-
+  const { publishedDate, title, description, blogPoster, content, id } = blog;
   const { isAuthenticated } = useUser();
+  const { mutate } = useMutation({
+    mutationFn: createBlogView,
+  });
 
-
+  useEffect(
+    function () {
+      if (id) {
+        mutate(id);
+      }
+    },
+    [id, mutate]
+  );
 
   if (!publishedDate && !isAuthenticated) return <BlogNotFound />;
 
   return (
     <>
-      
       <header>
         <div className="flex flex-col gap-2 items-center pt-4">
           {/* <div className="text-xs text-primary">
