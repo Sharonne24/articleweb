@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { MoreVertical, Trash } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { MoreVertical } from 'lucide-react';
 
 import {
   Card,
@@ -17,22 +17,34 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { toast } from 'sonner';
 import CategoriesTableSkeleton from './table-skeleton';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { getCategories } from '@/services/categories-api';
 import { titleCase } from '@/lib/utils';
 import { useCategories } from '../blogs/use-categories';
+import CustomDialog from '@/components/ui/custom-dialog';
+import { deleteCategory } from '@/services/categories-api';
+import { toast } from 'sonner';
 
 export default function CategoriesBox() {
   const { isLoading, categories } = useCategories();
-  console.log(categories);
+  const queryClient = useQueryClient();
+
+  const { isPending: isDeleting, mutate: deleteBlog } = useMutation({
+    mutationFn: deleteCategory,
+    onSuccess: () => {
+      toast.success('😄 Category deleted successfully.');
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+    },
+    onError: err => {
+      console.log(err);
+      toast.error('😞 Unable to perform selected action.');
+    },
+  });
 
   // if (error) {
   //   toast.error('Error while retrieving created categories.', {
@@ -71,12 +83,18 @@ export default function CategoriesBox() {
                           </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-                            <Trash className="icon text-destructive" />
-                            <span className="text-sm text-destructive">
-                              Delete
-                            </span>
-                          </DropdownMenuItem>
+                          <button
+                            className="dropdown-link cursor-pointer"
+                            disabled={isDeleting}
+                          >
+                            <CustomDialog
+                              onAction={() => deleteBlog(category.id)}
+                            >
+                              <span className="text-sm text-destructive">
+                                Delete
+                              </span>
+                            </CustomDialog>
+                          </button>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
