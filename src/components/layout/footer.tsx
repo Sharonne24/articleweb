@@ -10,7 +10,7 @@ export default function Footer() {
     <footer>
       <div className="py-4 bg-secondary">
         <Container>
-          <Logo />
+          {/* <Logo /> */}
           <Newsletter />
         </Container>
       </div>
