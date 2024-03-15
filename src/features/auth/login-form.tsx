@@ -72,7 +72,7 @@ export default function LoginForm() {
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>
-            Provide your login credentials to proceed.
+            Area restricted to only webpage admin.
           </CardDescription>
         </CardHeader>
         <CardContent>
