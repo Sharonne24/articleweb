@@ -1,10 +1,10 @@
-import parse from 'html-react-parser';
-import { capitalizeFirstLetter } from '@/lib/utils';
-import BlogNotFound from './blog-not-found';
-import { useUser } from '../auth/use-user';
-import { useMutation } from '@tanstack/react-query';
-import { createBlogView } from '@/services/blogApi';
 import { useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import parse from 'html-react-parser';
+
+import { capitalizeFirstLetter } from '@/lib/utils';
+import { createBlogView } from '@/services/blogApi';
+import BlogNotFound from './blog-not-found';
 
 interface BlogDetailProps {
   blog: {
@@ -25,8 +25,8 @@ interface BlogDetailProps {
 }
 
 export default function BlogDetail({ blog }: BlogDetailProps) {
-  const { publishedDate, title, description, blogPoster, content, id } = blog;
-  const { isAuthenticated } = useUser();
+  const { title, description, blogPoster, content, id } = blog;
+
   const { mutate } = useMutation({
     mutationFn: createBlogView,
   });
@@ -40,7 +40,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
     [id, mutate]
   );
 
-  if (!publishedDate && !isAuthenticated) return <BlogNotFound />;
+  if (!id) return <BlogNotFound />;
 
   return (
     <>
